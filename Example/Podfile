@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'WebBridge_Example' do
+  pod 'WebBridge', :path => '../'
+
+  target 'WebBridge_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
