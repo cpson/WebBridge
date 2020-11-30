@@ -1,0 +1,6 @@
+framework module WebBridge {
+  umbrella header "WebBridge-umbrella.h"
+
+  export *
+  module * { export * }
+}
