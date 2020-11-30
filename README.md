@@ -22,7 +22,7 @@ pod 'WebBridge'
 
 ## Author
 
-cpson, cpson@mt.co.kr
+cpson, cpsony2k@gmail.com
 
 ## License
 
