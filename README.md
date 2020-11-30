@@ -13,6 +13,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Installation
 
+**CocoaPods**
 WebBridge is available through [CocoaPods](https://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
@@ -20,7 +21,7 @@ it, simply add the following line to your Podfile:
 pod 'WebBridge'
 ```
 
-### Swift Package
+**Swift Package**
 ```ruby
 https://github.com/cpson/WebBridge.git
 ```
