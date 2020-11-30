@@ -20,7 +20,7 @@ it, simply add the following line to your Podfile:
 pod 'WebBridge'
 ```
 
-# Swift Package
+### Swift Package
 ```ruby
 https://github.com/cpson/WebBridge.git
 ```
