@@ -38,7 +38,7 @@ https://github.com/cpson/WebBridge.git
 - "Custom Class"의 Class 값을 WebBridge로 변경
 - User Defined Runtime Attributes에서 원하는 값을 설정.
 
-![README%206c91b17bf5894a92b190e35e0923b5b5/_2021-03-11__4.50.02.png](README%206c91b17bf5894a92b190e35e0923b5b5/_2021-03-11__4.50.02.png)
+![initial](https://user-images.githubusercontent.com/58577880/110755139-f6589e80-828b-11eb-9158-9e62a0606847.png)
 
 혹은 아래 이미지처럼 Attribute Inspector에서 설정 해도 상관 없습니다.
 
@@ -46,7 +46,7 @@ Default 값으로 표시 하고 싶은데..아직 실력이 부족해서 ......�
 
 Default값은 WKWebView 설정 시 Default 값과 동일 합니다.
 
-![README%206c91b17bf5894a92b190e35e0923b5b5/_2021-03-11__4.51.00.png](README%206c91b17bf5894a92b190e35e0923b5b5/_2021-03-11__4.51.00.png)
+![initial](https://user-images.githubusercontent.com/58577880/110755153-f9538f00-828b-11eb-9ddc-babfae7ca6a7.png)
 
 IBOutlet 으로 웹뷰 연결 후 사용.
 
