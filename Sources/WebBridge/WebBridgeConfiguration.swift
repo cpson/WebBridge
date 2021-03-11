@@ -7,11 +7,7 @@
 
 import WebKit
 
-internal var WBConfig: WebBridgeConfiguration { return WebBridgeConfiguration.shared }
-
 public struct WebBridgeConfiguration {
-    public static var shared: WebBridgeConfiguration = WebBridgeConfiguration()
-    
     public init() {}
     
     /// 웹 관련 메시지 핸들러

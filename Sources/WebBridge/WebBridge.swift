@@ -5,55 +5,103 @@ public protocol EvaluateJavaScriptDelegate: NSObjectProtocol {
     func evaluateJavaScriptResult(name: String, result: Any?, error: Error?)
 }
 
-open class WebBridge: NSObject {
+open class WebBridge: WKWebView {
     
-    private var wbWebView: WKWebView!
     public weak var evaluateJavaScriptDelegate: EvaluateJavaScriptDelegate? = nil
     
-    public var webView: WKWebView {
-        return wbWebView
+    /// default TRUE
+    @IBInspectable var javaScriptEnable : Bool {
+        get {
+            if #available(iOS 14.0, *) {
+                return self.configuration.defaultWebpagePreferences.allowsContentJavaScript
+            } else {
+                return self.configuration.preferences.javaScriptEnabled
+            }
+        }
+        set (value) {
+            if #available(iOS 14.0, *) {
+                self.configuration.preferences.javaScriptEnabled = value
+            } else {
+                self.configuration.preferences.javaScriptEnabled = value
+            }
+        }
     }
     
-    // MARK: - Init or Deinit
-    public required init(frame: CGRect = .zero, configuration: WebBridgeConfiguration) {
-        super.init()
-        initWithConfiguration(configuration)
+    /// default FALSE
+    @IBInspectable var javaScriptCanOpenWindowsAutomatically : Bool {
+        get {
+            return self.configuration.preferences.javaScriptCanOpenWindowsAutomatically
+        }
+        set (value) {
+            self.configuration.preferences.javaScriptCanOpenWindowsAutomatically = value
+        }
     }
     
-    public convenience init(frame: CGRect = .zero) {
-        self.init(frame: frame, configuration: WebBridgeConfiguration.shared)
+    /// default TRUE
+    @IBInspectable var showsVerticalScrollIndicator : Bool {
+        get {
+            return self.scrollView.showsVerticalScrollIndicator
+        }
+        set (value) {
+            self.scrollView.showsVerticalScrollIndicator = value
+        }
     }
     
-    deinit {
-        print("WebBridge deinit 😀")
+    /// default TRUE
+    @IBInspectable var showsHorizontalScrollIndicator : Bool {
+        get {
+            return self.scrollView.showsHorizontalScrollIndicator
+        }
+        set (value) {
+            self.scrollView.showsHorizontalScrollIndicator = value
+        }
     }
     
-    // MARK: - WebView Init
-    private func initWithConfiguration(_ configuration: WebBridgeConfiguration) {
-        WebBridgeConfiguration.shared = configuration
-        setUserContentController()
-        setWebViewConfiguration()
-        setEvaluateJavaScript()
-        wbWebView = WKWebView(frame: .zero, configuration: WebBridgeConfiguration.shared.webViewConfiguration)
+    /// default TRUE
+    @IBInspectable var bounceOnScroll : Bool {
+        get {
+            return self.scrollView.bounces
+        }
+        set (value) {
+            self.scrollView.bounces = value
+        }
     }
     
-    /// 부모뷰와 동일한 크기로 autolayout 값 설정
-    public func addSubViewWithLayoutConstraint(view: UIView) {
-        view.addSubview(wbWebView)
-        wbWebView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            view.leadingAnchor.constraint(equalTo: wbWebView.leadingAnchor),
-            view.trailingAnchor.constraint(equalTo: wbWebView.trailingAnchor),
-            view.topAnchor.constraint(equalTo: wbWebView.topAnchor),
-            view.bottomAnchor.constraint(equalTo: wbWebView.bottomAnchor)
-            ])
+    /// default TRUE
+    @IBInspectable var bounceOnZoom : Bool {
+        get {
+            return self.scrollView.bouncesZoom
+        }
+        set (value) {
+            self.scrollView.bouncesZoom = value
+        }
     }
-
+    
+    /// default FALSE
+    @IBInspectable var bounceHorizontally : Bool {
+        get {
+            return self.scrollView.alwaysBounceHorizontal
+        }
+        set (value) {
+            self.scrollView.alwaysBounceHorizontal = value
+        }
+    }
+    
+    /// default FALSE
+    @IBInspectable var bounceVertically : Bool {
+        get {
+            return self.scrollView.alwaysBounceVertical
+        }
+        set (value) {
+            self.scrollView.alwaysBounceVertical = value
+        }
+    }
+    
     // MARK: - load 함수
     /// url, urlrequest 귀찮아서 작성해 놓음..
     public func load(address: String) {
         if let url = URL(string: address) {
-            wbWebView.load(URLRequest(url: url))
+            self.load(URLRequest(url: url))
         }
     }
     
@@ -82,38 +130,40 @@ open class WebBridge: NSObject {
         }
     }
     
-    /// 쿠키 설정
-    public func setCookie(cookie: HTTPCookie,  completionHandler: (() -> Void)? = nil) {
-        WBConfig.nonPersistent.httpCookieStore.setCookie(cookie, completionHandler: completionHandler)
-    }
-    
-    // MARK: - Private Methods
-    /// 웹 앱 사용 시 스크립트 실행을 위해 등록하는 부분
-    private func setUserContentController() {
-        if let scriptNames = WBConfig.scriptNames, let handler = WBConfig.scriptMessageHandler {
-            scriptNames.forEach { name in
-                WBConfig.userContentController.add(handler, name: name)
-            }
-            WBConfig.webViewConfiguration.userContentController = WBConfig.userContentController
-        }
-    }
-    
-    /// 쿠키 값 공유 설정, perefences 설정
-    private func setWebViewConfiguration() {
-        if WBConfig.isUseProcessPool {
-            WBConfig.webViewConfiguration.processPool = WBConfig.processPool
-        }
-        WBConfig.webViewConfiguration.preferences = WBConfig.preferences
-    }
-    
-    /// native에서 웹 호출...
-    private func setEvaluateJavaScript() {
-        if let list = WBConfig.evaluateJavaScriptNames {
-            list.forEach { scriptName in
-                wbWebView.evaluateJavaScript(scriptName) { result, error in
-                    self.evaluateJavaScriptDelegate?.evaluateJavaScriptResult(name: scriptName, result: result, error: error)
-                }
-            }
-        }
-    }
+//    /// 쿠키 설정
+//    public func setCookie(cookie: HTTPCookie,  completionHandler: (() -> Void)? = nil) {
+//        webConfiguration?.nonPersistent.httpCookieStore.setCookie(cookie, completionHandler: completionHandler)
+//    }
+//
+//    // MARK: - Private Methods
+//    /// 웹 앱 사용 시 스크립트 실행을 위해 등록하는 부분
+//    private func setUserContentController() {
+//        if let config = self.configuration, let scriptNames = config.scriptNames, let handler = config.scriptMessageHandler {
+//            scriptNames.forEach { name in
+//                config.userContentController.add(handler, name: name)
+//            }
+//            config.webViewConfiguration.userContentController = config.userContentController
+//        }
+//    }
+//
+//    /// 쿠키 값 공유 설정, perefences 설정
+//    private func setWebViewConfiguration() {
+//        if let config = webConfiguration {
+//            if config.isUseProcessPool {
+//                config.webViewConfiguration.processPool = config.processPool
+//            }
+//            config.webViewConfiguration.preferences = config.preferences
+//        }
+//    }
+//
+//    /// native에서 웹 호출...
+//    private func setEvaluateJavaScript() {
+//        if let list = webConfiguration?.evaluateJavaScriptNames {
+//            list.forEach { scriptName in
+//                wbWebView.evaluateJavaScript(scriptName) { result, error in
+//                    self.evaluateJavaScriptDelegate?.evaluateJavaScriptResult(name: scriptName, result: result, error: error)
+//                }
+//            }
+//        }
+//    }
 }
