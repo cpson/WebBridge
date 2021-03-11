@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'WebBridge'
-  s.version          = '1.0.0'
-  s.summary          = 'A short description of WebBridge.'
+  s.version          = '1.0.1'
+  s.summary          = 'WebView Helper'
 
   s.description      = "웹 앱 만들 때 동일한 코드 복붙/설정이 귀찮아서 라이브러리로 만들어서 사용 함."
 
