@@ -2,13 +2,10 @@
 
 # WebBridge
 
-![https://img.shields.io/travis/cpson/WebBridge.svg?style=flat](https://img.shields.io/travis/cpson/WebBridge.svg?style=flat)
-
-![https://img.shields.io/cocoapods/v/WebBridge.svg?style=flat](https://img.shields.io/cocoapods/v/WebBridge.svg?style=flat)
-
-![https://img.shields.io/cocoapods/l/WebBridge.svg?style=flat](https://img.shields.io/cocoapods/l/WebBridge.svg?style=flat)
-
-![https://img.shields.io/cocoapods/p/WebBridge.svg?style=flat](https://img.shields.io/cocoapods/p/WebBridge.svg?style=flat)
+[![CI Status](https://img.shields.io/travis/cpson/WebBridge.svg?style=flat)](https://travis-ci.org/cpson/WebBridge)
+[![Version](https://img.shields.io/cocoapods/v/WebBridge.svg?style=flat)](https://cocoapods.org/pods/WebBridge)
+[![License](https://img.shields.io/cocoapods/l/WebBridge.svg?style=flat)](https://cocoapods.org/pods/WebBridge)
+[![Platform](https://img.shields.io/cocoapods/p/WebBridge.svg?style=flat)](https://cocoapods.org/pods/WebBridge)
 
 ## Example
 
