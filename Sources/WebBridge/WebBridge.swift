@@ -5,9 +5,13 @@ import WebKit
 //    func evaluateJavaScriptResult(name: String, result: Any?, error: Error?)
 //}
 
+public protocol MessageHandlerDelegate: WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage)
+}
+
 open class WebBridge: WKWebView, WKScriptMessageHandler {
     
-    open var messageHandler: WKScriptMessageHandler? = nil
+    open var messageHandler: MessageHandlerDelegate? = nil
     
     //    public weak var evaluateJavaScriptDelegate: EvaluateJavaScriptDelegate? = nil
     private var _cookieHelper = CookieHelper()
