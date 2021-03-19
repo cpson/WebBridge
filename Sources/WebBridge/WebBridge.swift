@@ -5,13 +5,14 @@ import WebKit
 //    func evaluateJavaScriptResult(name: String, result: Any?, error: Error?)
 //}
 
-public protocol MessageHandlerDelegate: WKScriptMessageHandler {
+public protocol MessageHandlerDelegate: NSObject {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage)
 }
 
+
 open class WebBridge: WKWebView, WKScriptMessageHandler {
     
-    open var messageHandler: MessageHandlerDelegate? = nil
+    open weak var messageHandler: MessageHandlerDelegate? = nil
     
     //    public weak var evaluateJavaScriptDelegate: EvaluateJavaScriptDelegate? = nil
     private var _cookieHelper = CookieHelper()
@@ -22,16 +23,15 @@ open class WebBridge: WKWebView, WKScriptMessageHandler {
         get { return _cookieHelper }
     }
     
-    // MARK: - IBInspectablesß
+    // MARK: - IBInspectables
     @IBInspectable var javaScriptNamesInterfaces : String? {
         get {
             return nil
         }
         set (value) {
-            value?.components(separatedBy: "\n").forEach({ name in
+            value?.components(separatedBy: CharacterSet.newlines).forEach({ name in
                 if !name.isEmpty {
                     let trimName = name.trimmingCharacters(in: .whitespaces)
-                    print(trimName)
                     self.configuration.userContentController.add(self, name: trimName)
                 }
             })
