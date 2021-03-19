@@ -5,19 +5,35 @@ import WebKit
 //    func evaluateJavaScriptResult(name: String, result: Any?, error: Error?)
 //}
 
-open class WebBridge: WKWebView {
+open class WebBridge: WKWebView, WKScriptMessageHandler {
     
-//    public weak var evaluateJavaScriptDelegate: EvaluateJavaScriptDelegate? = nil
+    private var messageHandler: WKScriptMessageHandler? = nil
+    
+    //    public weak var evaluateJavaScriptDelegate: EvaluateJavaScriptDelegate? = nil
     private var _cookieHelper = CookieHelper()
-//    private var _userContentController = WebBridgeConfiguration()
-    
+    //    private var _userContentController = WebBridgeConfiguration()
+
     // MARK: - member var
     var cookieHelper: CookieHelper {
         get { return _cookieHelper }
     }
     
     // MARK: - IBInspectablesß
-    /// default TRUE
+    @IBInspectable var javaScriptNamesInterfaces : String? {
+        get {
+            return nil
+        }
+        set (value) {
+            value?.components(separatedBy: "\n").forEach({ name in
+                if !name.isEmpty {
+                    let trimName = name.trimmingCharacters(in: .whitespaces)
+                    print(trimName)
+                    self.configuration.userContentController.add(self, name: trimName)
+                }
+            })
+        }
+    }
+    
     @IBInspectable var javaScriptEnable : Bool {
         get {
             if #available(iOS 14.0, *) {
@@ -117,5 +133,10 @@ open class WebBridge: WKWebView {
         if let url = URL(string: address), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:])
         }
+    }
+    
+    // MARK: - Delegate
+    public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        self.messageHandler?.userContentController(userContentController, didReceive: message)
     }
 }
