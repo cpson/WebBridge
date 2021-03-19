@@ -7,7 +7,7 @@ import WebKit
 
 open class WebBridge: WKWebView, WKScriptMessageHandler {
     
-    private var messageHandler: WKScriptMessageHandler? = nil
+    open var messageHandler: WKScriptMessageHandler? = nil
     
     //    public weak var evaluateJavaScriptDelegate: EvaluateJavaScriptDelegate? = nil
     private var _cookieHelper = CookieHelper()
