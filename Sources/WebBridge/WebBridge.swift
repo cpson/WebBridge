@@ -5,7 +5,7 @@ import WebKit
 //    func evaluateJavaScriptResult(name: String, result: Any?, error: Error?)
 //}
 
-public protocol MessageHandlerDelegate: NSObject {
+public protocol MessageHandlerDelegate: NSObjectProtocol {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage)
 }
 
